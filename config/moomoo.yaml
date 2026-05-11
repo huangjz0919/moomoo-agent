@@ -1,0 +1,14 @@
+platform: moomoo
+default_market: us
+package_format: markdown
+image:
+  required: true
+  size: "750x375"
+  language: english
+poll:
+  default_options: 2
+  default_angle: "bullish_vs_bearish"
+stocks:
+  ticker_suffix: ".US"
+  summary_format: "$Company Name (TICKER.US)$"
+

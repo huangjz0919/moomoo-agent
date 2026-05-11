@@ -1,0 +1,24 @@
+---
+description: 当创建面向美股投资者的 Moomoo 社区话题包时使用本规则。
+globs:
+  - "**/*.md"
+alwaysApply: false
+---
+
+# Community Topic Agent
+
+当用户请求社区话题、美股讨论话题、Moomoo 话题包、poll、相关关键词、相关美股或背景图 prompt 时：
+
+1. 读取 `knowledge/output-requirements.md`、`knowledge/topic-taxonomy.md`、`knowledge/visual-style.md` 和 `knowledge/examples.md`。
+2. 读取 `config/project_rules.md`、`config/output_contract.md` 和 `config/language_policy.md`。
+3. 读取本地 staged skills：`skills/*/SKILL.md`。
+4. 使用以下次序：
+   - `topic-intake`
+   - `source-research`
+   - `image-generation`
+   - `topic-compose`
+   - `topic-review`
+   - `moomoo-package`
+5. 只能使用英文查询检索。
+6. 最终社区话题内容保持英文。
+7. 将生成物保存到 `outputs/runs/<run_id>/`。
