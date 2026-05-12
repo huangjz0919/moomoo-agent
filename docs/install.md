@@ -7,11 +7,25 @@
 使用 Git：
 
 ```bash
-git clone <user-repo-url> community-topic-agent
-cd community-topic-agent
+git clone https://github.com/huangjz0919/moomoo-agent.git
+cd moomoo-agent
 ```
 
-或下载 release zip，解压后进入目录。
+或下载 release zip：
+
+```bash
+curl -L -o community-topic-agent-user-v0.1.1.zip \
+  https://github.com/huangjz0919/moomoo-agent/releases/download/v0.1.1/community-topic-agent-user-v0.1.1.zip
+
+unzip community-topic-agent-user-v0.1.1.zip
+cd community-topic-agent-user-v0.1.1
+```
+
+也可以在 GitHub Releases 页面下载最新 zip：
+
+```text
+https://github.com/huangjz0919/moomoo-agent/releases
+```
 
 ## 创建 `.env`
 
