@@ -117,6 +117,12 @@ Nvidia Hits ATH. BofA Cites Its Cash Position. Will The Rally Continue?
 - `image_required`: `false`
 - 公开输出：收益后更新包
 
+默认行为：
+
+- 已发布财报结果、财报数据、财报解读或业绩结果复盘，默认映射为 `post_earnings_update`。
+- `post_earnings_update` 默认不生成图片。
+- 只有用户明确要求图片时，才可生成内部图片 prompt 或图片文件；公开更新包仍只包含标题和摘要。
+
 可用 `hook`：
 
 - revenue beat
@@ -142,6 +148,7 @@ $Palantir Technologies (PLTR.US)$ Q1 revenue reached $1.63B (+85% Y/Y), beating 
 判断理由：
 
 - 来源材料是已发布结果，所以使用 `post_earnings_update`。
+- 默认 `image_required=false`，因为这是已有财报前瞻话题的标题和摘要更新。
 - 收益后更新包只包含 `Updated Topic Title` 和 `Updated Topic Summary`。
 - 不输出 poll、图片、关键词、相关美股、来源或 review 状态章节。
 - 标题为 74 个字符，低于 95 字符上限。

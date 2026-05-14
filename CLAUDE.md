@@ -1,30 +1,48 @@
 # Community Topic Agent
 
-本仓库是一个可迁移的本地 agent，用于创建面向 Moomoo 的英文美股社区话题包。
+## 语言
+- 面向用户的回复使用中文。
+- 生成的社区话题正文使用英文。
+- 检索资料只能使用英文查询，除非用户明确要求使用中文。
 
-## 必读文件
-- 社区话题生成：`knowledge/output-requirements.md`、`knowledge/topic-taxonomy.md`、`knowledge/visual-style.md`、`knowledge/examples.md`
-- 社区话题生成：`config/project_rules.md`、`config/output_contract.md`、`config/language_policy.md`
-- 社区话题生成：相关的 `skills/*/SKILL.md` 文件
+## 角色
+- 作为 Moomoo 美股官方社区话题的本地工作区编排 agent。
+- 产出基于事实、中立、面向讨论的话题包。
+- 从 `skills/*/SKILL.md` 读取仓库内 staged skills；不要假设技能已全局安装。
 
-## 生成边界
-- `knowledge/` 记录可复用的输出要求、示例、话题分类和视觉风格指引。
-- 每个话题的事实基础只能来自来源 URL 的抽取文本、用户笔记和特殊要求。
+## 社区话题生成启动
+1. 判断运行能力，优先使用 `scripts/check_runtime.py`，并将结果保存为 `runtime_report.md`。
+2. 读取 `knowledge/output-requirements.md`。
+3. 读取 `knowledge/topic-taxonomy.md`。
+4. 按话题类型需要，读取 `knowledge/visual-style.md` 和 `knowledge/examples.md`。
+5. 读取 `config/project_rules.md`。
+6. 读取 `config/output_contract.md`。
+7. 读取 `config/language_policy.md`。
+8. 读取本次任务所需的本地 skill 文件。
+9. 将生成物保存到 `outputs/runs/<run_id>/`。
+
+## Skill 次序
+1. `skills/topic-intake/SKILL.md`
+2. `skills/source-research/SKILL.md`
+3. `skills/image-generation/SKILL.md`
+4. `skills/topic-compose/SKILL.md`
+5. `skills/topic-review/SKILL.md`
+6. `skills/moomoo-package/SKILL.md`
+
+## 来源规则
+- 以 `topic_theme`、抽取后的来源文本、用户提供的笔记和 `special_requirements` 作为事实基础。
+- `knowledge/` 只能作为可复用的生成指引，不能作为某个市场事件的事实来源。
 - 不得从 URL、页面标题、URL slug、ticker 热度或通用市场记忆推断事实。
+- 如果来源文本为空、不可读、只有 URL，或与主题无关，停止并输出：
+  `<ERROR>来源材料不足：{一行原因}</ERROR>`
+- 如果网页读取能力不可用，仅在用户已提供足够来源文本时继续。
 
-## 工作流
-1. 使用 `scripts/check_runtime.py` 判断网页读取和图片生成能力，并保存 `runtime_report.md`。
-2. 使用 `skills/topic-intake` 整理用户的话题请求。
-3. 使用 `skills/source-research` 获取或验证来源文本。
-4. 当 `image_required=true` 且来源足够时，使用 `skills/image-generation` 创建图片 prompt；图片文件是否生成取决于运行能力。
-5. 使用 `skills/topic-compose` 起草话题字段。
-6. 使用 `skills/topic-review` 验证事实、因果、语气、ticker 格式和输出形态。
-7. 使用 `skills/moomoo-package` 创建最终 Markdown 包。
+## 环境
+- 如存在 `.env`，读取其中的运行配置。
+- 不要把真实凭据写入 Git。提交 `.env.example`，不要提交 `.env`。
+- 本地手动使用时，检索和图片服务可以为空；全自动来源获取和图片创建需要 API 或宿主能力。
 
-## 运行说明
-- 如存在 `.env`，读取其中配置。
-- 不要提交 `.env`。
-- 只能使用英文查询检索。
-- 最终社区话题内容保持英文。
-- 输出保存到 `outputs/runs/<run_id>/`。
-- 收益后更新包只改标题和摘要，不包含 poll 输出。
+## 输出
+- 主话题包格式为 Markdown。
+- 最终话题内容必须使用英文，中立、简洁，并适合 Moomoo 社区发布。
+- 在 run 文件夹中保存来源笔记、review 笔记、图片 prompt、图片路径或图片状态，以及最终 Markdown 包。

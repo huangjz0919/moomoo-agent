@@ -23,11 +23,13 @@
 
 ## Earnings Update Package
 - `pre_earnings` 用于业绩发布前的话题预热。
-- `post_earnings_update` 用于官方业绩发布后的话题更新。
+- `post_earnings_update` 用于官方业绩发布后的话题更新；已发布财报结果、财报数据、财报解读和业绩结果复盘默认使用此阶段。
+- `post_earnings_update` 默认 `image_required=false`；只有用户明确要求图片时才可生成内部图片产物。
 - 收益后更新只改：
   - `Updated Topic Title`
   - `Updated Topic Summary`
 - 收益后更新包不得包含 Poll 输出。
+- 收益后更新包不得包含公开图片输出。
 - 生成 run 文件夹时，来源记录和 review 笔记只作为内部可追溯材料保存。
 - 更新标题必须不超过 95 个字符，计入空格、标点和数字。
 

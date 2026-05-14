@@ -15,6 +15,8 @@
 
 当用户没有明确提供 `topic_type` 或 `earnings_stage` 时，agent 可根据主题和来源材料保守判断。判断不充分时，应在内部 review 笔记中标明不确定性。
 
+`image_required` 默认值为 `true`。当 `earnings_stage=post_earnings_update` 时，默认值为 `false`；只有用户明确要求图片时才设为 `true`，且图片只作为内部 run 产物。
+
 ## 完整话题包
 
 以下类型使用完整话题包：
@@ -51,6 +53,8 @@
 
 收益后更新包不得包含公开 `Poll` 输出，也不得包含公开图片、关键词、相关美股、来源或 review 状态章节。来源记录和 review 笔记只作为 run 文件夹中的内部追溯材料保存。
 
+如果用户明确要求为 `post_earnings_update` 生成图片，图片 prompt 或图片文件仍只保存为内部追溯产物，不得进入公开收益后更新包。
+
 公开 `Updated Topic Title` 必须不超过 95 个字符。字符数按 Python `len(title)` 口径计算，计入空格、标点和数字。
 
 公开 `Updated Topic Summary` 必须是两段：第一段放事实信息，第二段只放讨论问题。第二段必须使用 Markdown 加粗格式：`**Question?**`。
@@ -84,10 +88,10 @@
 总模式：
 
 - `Mode A`：网页读取能力和图片生成能力都可用。可自动获取来源并生成图片文件。
-- `Mode B`：只具备其中一项能力。缺网页读取能力时依赖用户提供 `source_content`；缺图片能力时仍生成 `image_prompt`，图片状态为 `image_pending`。
-- `Mode C`：两项能力都不可用。依赖用户提供 `source_content`；来源足够时仍生成 `image_prompt`，图片状态为 `image_pending`。
+- `Mode B`：只具备其中一项能力。缺网页读取能力时依赖用户提供 `source_content`；缺图片能力时，对 `image_required=true` 的话题仍生成 `image_prompt`，图片状态为 `image_pending`。
+- `Mode C`：两项能力都不可用。依赖用户提供 `source_content`；来源足够且 `image_required=true` 时仍生成 `image_prompt`，图片状态为 `image_pending`。
 
-当 `image_required=true` 且来源材料足够时，无论图片文件生成能力是否可用，都应生成 `image_prompt`。图片文件是否生成取决于 `image_generation_capability`。
+当 `image_required=false` 时，跳过图片生成步骤，不创建 `image_prompt.md`。当 `image_required=true` 且来源材料足够时，无论图片文件生成能力是否可用，都应生成 `image_prompt`。图片文件是否生成取决于 `image_generation_capability`。
 
 来源不足时，可保存内部失败说明，但公开输出仍必须只包含一行中文 `<ERROR>`。
 

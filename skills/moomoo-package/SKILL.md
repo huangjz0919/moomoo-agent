@@ -41,6 +41,7 @@ description: 将通过 review 的社区话题字段打包为 Moomoo 可用的 Ma
 - `Topic Summary` 和 `Updated Topic Summary` 必须是两段；第二段只包含使用 Markdown 加粗的问题句，格式为 `**Question?**`。
 - 对于 `post_earnings_update`，公开输出只打包 updated title 和 updated summary。
 - `post_earnings_update` 不包含 poll 输出。
+- `post_earnings_update` 即使存在内部图片产物，也不得在公开输出中包含图片章节或图片路径。
 - 只有真实文件存在时，才包含图片路径。
 - 当图片 API 未配置或未尝试创建图片时，使用 `image_pending`。
 - 保留来源记录用于追溯。
